@@ -35,15 +35,12 @@ class MoviesCollectionFragment: Fragment() {
                 0 -> {
                     tab.text = "Ação"
                 }
-
                 1 -> {
                     tab.text = "Drama"
                 }
-
                 2 -> {
                     tab.text = "Fantasia"
                 }
-
                 else -> {
                     tab.text = "Ficção"
                 }

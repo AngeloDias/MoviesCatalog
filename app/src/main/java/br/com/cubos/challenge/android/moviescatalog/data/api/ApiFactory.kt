@@ -7,20 +7,28 @@ import retrofit2.converter.gson.GsonConverterFactory
 class ApiRetrofitFactory {
 
     companion object {
-        const val MOVIE_API_BASE_URL = "https://api.themoviedb.org/3"
-        private lateinit var INSTANCE: Retrofit
+        private const val MOVIE_API_BASE_URL = "https://api.themoviedb.org/3/"
+        @Volatile
+        private var INSTANCE: Retrofit? = null
 
         fun getInstance(): Retrofit {
 
-            if(INSTANCE == null) {
-                INSTANCE = Retrofit.Builder()
-                    .baseUrl(MOVIE_API_BASE_URL)
-                    .addConverterFactory(GsonConverterFactory.create())
-//                    .addCallAdapterFactory(rxAdapter)
-                    .build()
+            synchronized(this) {
+                var instance = INSTANCE
+
+                if (instance == null) {
+                    instance = Retrofit.Builder()
+                        .baseUrl(MOVIE_API_BASE_URL)
+                        .addConverterFactory(GsonConverterFactory.create())
+                        .addCallAdapterFactory(RxJava2CallAdapterFactory.create())
+                        .build()
+
+                    INSTANCE = instance
+                }
+
+                return instance!!
             }
 
-            return INSTANCE
         }
     }
 

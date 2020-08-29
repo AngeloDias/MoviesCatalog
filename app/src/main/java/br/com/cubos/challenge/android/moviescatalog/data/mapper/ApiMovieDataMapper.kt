@@ -11,9 +11,9 @@ class ApiMovieDataMapper: Mapper<ApiMovie, Movie> {
             originalTitle = input.originalTitle,
             overview = input.overview,
             posterPath = input.posterPath,
-            genres = input.genres.map {
+            genres = input.genres/*.map {
                 Genre(it.id, it.name)
-            }
+            }*/
         )
     }
 

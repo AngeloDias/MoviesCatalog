@@ -10,13 +10,27 @@ import io.reactivex.Observable
 class ApiTmdbRepositoryImpl(private val listMapper: ListMapper<ApiMovie, Movie>): ApiTmdbRepository {
 
     override fun getPopularMovies(): Observable<List<Movie>> {
-        val retrofit = ApiRetrofitFactory.getInstance()
-        val service = retrofit.create(TmdbApiService::class.java)
-        val observableList = service.getPopularMovies()
+        val popularApiMovies = getRetrofitService()
+            .getPopularMovies("98fd2f0ffa80a2790cc4a4e5d611e1a3")
 
-        return observableList.map {
-            listMapper.map(it)
+        return popularApiMovies.map {
+            listMapper.map(it.movies)
         }
+    }
+
+    override fun getMoviesByGenres(genres: List<String>): Observable<List<Movie>> {
+        val apiMoviesByGenre = getRetrofitService()
+            .getMoviesByGenre("98fd2f0ffa80a2790cc4a4e5d611e1a3", genres)
+
+        return apiMoviesByGenre.map {
+            listMapper.map(it.movies)
+        }
+    }
+
+    private fun getRetrofitService(): TmdbApiService {
+        val retrofit = ApiRetrofitFactory.getInstance()
+
+        return retrofit.create(TmdbApiService::class.java)
     }
 
 }

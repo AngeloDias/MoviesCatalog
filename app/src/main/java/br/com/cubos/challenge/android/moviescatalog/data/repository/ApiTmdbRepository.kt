@@ -7,4 +7,6 @@ interface ApiTmdbRepository {
 
     fun getPopularMovies(): Observable<List<Movie>>
 
+    fun getMoviesByGenres(genres: List<String>): Observable<List<Movie>>
+
 }

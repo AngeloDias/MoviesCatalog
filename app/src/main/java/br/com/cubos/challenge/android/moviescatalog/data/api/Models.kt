@@ -9,8 +9,8 @@ data class ApiMovie(
     val overview: String,
     @SerializedName("poster_path")
     val posterPath: String,
-    @SerializedName("genres")
-    val genres: List<ApiGenre>
+    @SerializedName("genre_ids")
+    val genres: List<Int>
 )
 
 data class ApiGenre(
