@@ -5,4 +5,15 @@
     android:layout_height="match_parent"
     tools:context="br.com.cubos.challenge.android.moviescatalog.ui.MovieFragment">
 
+    <GridView
+        android:id="@+id/moviesGridView"
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        android:numColumns="2"
+        android:columnWidth="@dimen/grid_col_width"
+        android:stretchMode="columnWidth"
+        android:horizontalSpacing="7dp"
+        android:verticalSpacing="7dp"
+        android:gravity="center"/>
+
 </FrameLayout>

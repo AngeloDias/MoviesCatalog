@@ -8,6 +8,7 @@ class ApiMovieDataMapper: Mapper<ApiMovie, Movie> {
 
     override fun map(input: ApiMovie): Movie {
         return Movie(
+            id = input.id,
             originalTitle = input.originalTitle,
             overview = input.overview,
             posterPath = input.posterPath,

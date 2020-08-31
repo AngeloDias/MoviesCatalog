@@ -10,27 +10,19 @@ import br.com.cubos.challenge.android.moviescatalog.data.mapper.ApiMovieDataMapp
 import br.com.cubos.challenge.android.moviescatalog.data.mapper.ListMapper
 import br.com.cubos.challenge.android.moviescatalog.data.mapper.ListMapperImpl
 import br.com.cubos.challenge.android.moviescatalog.data.repository.ApiTmdbRepositoryImpl
+import br.com.cubos.challenge.android.moviescatalog.ui.MovieGenreTypes
 import io.reactivex.android.schedulers.AndroidSchedulers
 import io.reactivex.disposables.CompositeDisposable
 import io.reactivex.schedulers.Schedulers
 
-class MoviesViewModel: ViewModel() {
+class MoviesViewModel(private val enumGenre: MovieGenreTypes): ViewModel() {
     //region Declaring properties
 
     private val listMapperImpl: ListMapper<ApiMovie, Movie>
     private val repositoryImpl: ApiTmdbRepositoryImpl
 
-    private val _actionMovies = MutableLiveData<List<Movie>>()
-    val actionMovies = _actionMovies
-
-    private val _fantasyMovies = MutableLiveData<List<Movie>>()
-    val fantasyMovies = _fantasyMovies
-
-    private val _fictionMovies = MutableLiveData<List<Movie>>()
-    val fictionMovies = _fictionMovies
-
-    private val _dramaMovies = MutableLiveData<List<Movie>>()
-    val dramaMovies: LiveData<List<Movie>> = _dramaMovies
+    private val _moviesByGenreMutableLiveData = MutableLiveData<ArrayList<Movie>>()
+    val moviesByGenreLiveData: LiveData<ArrayList<Movie>> = _moviesByGenreMutableLiveData
 
     private val compositeDisposable = CompositeDisposable()
 
@@ -41,85 +33,29 @@ class MoviesViewModel: ViewModel() {
         repositoryImpl = ApiTmdbRepositoryImpl(listMapperImpl)
 
         synchronized(this) {
-            fetchMoviesByGenres()
+            fetchMoviesByGenres(enumGenre)
         }
     }
 
-    private fun fetchMoviesByGenres() {
+    private fun fetchMoviesByGenres(enumGenre: MovieGenreTypes) {
         val genre = ArrayList<String>()
-        genre.add("18")
 
-        val disposableDramaMovies = repositoryImpl
+        genre.add(enumGenre.genreId)
+
+        val disposableMovies = repositoryImpl
             .getMoviesByGenres(genre)
             .subscribeOn(Schedulers.io())
             .observeOn(AndroidSchedulers.mainThread())
             .subscribe(
                 {
-                    _dramaMovies.postValue(it)
-                    it.forEach {m ->
-                        Log.d("ApiSuccess", "Drama Original title: ${m.originalTitle}")
-                    }
+                    _moviesByGenreMutableLiveData.postValue(it as ArrayList<Movie>?)
                 },
                 {
                     Log.e("ApiError", it.message!!)
                 }
             )
 
-        genre.clear()
-        genre.add("28")
-
-        val disposableActionMovies = repositoryImpl
-            .getMoviesByGenres(genre)
-            .subscribeOn(Schedulers.io())
-            .observeOn(AndroidSchedulers.mainThread())
-            .subscribe(
-                {
-                    _actionMovies.postValue(it)
-                },
-                {
-                    Log.e("ApiError", it.message!!)
-                }
-            )
-
-        genre.clear()
-        genre.add("878")
-
-        val disposableFictionMovies = repositoryImpl
-            .getMoviesByGenres(genre)
-            .subscribeOn(Schedulers.io())
-            .observeOn(AndroidSchedulers.mainThread())
-            .subscribe(
-                {
-                    _fictionMovies.postValue(it)
-                },
-                {
-                    Log.e("ApiError", it.message!!)
-                }
-            )
-
-        genre.clear()
-        genre.add("14")
-
-        val disposableFantasyMovies = repositoryImpl
-            .getMoviesByGenres(genre)
-            .subscribeOn(Schedulers.io())
-            .observeOn(AndroidSchedulers.mainThread())
-            .subscribe(
-                {
-                    _fantasyMovies.postValue(it)
-                },
-                {
-                    Log.e("ApiError", it.message!!)
-                }
-            )
-
-        compositeDisposable.addAll(
-            disposableDramaMovies,
-            disposableActionMovies,
-            disposableFantasyMovies,
-            disposableFictionMovies
-        )
-
+        compositeDisposable.add(disposableMovies)
     }
 
     override fun onCleared() {

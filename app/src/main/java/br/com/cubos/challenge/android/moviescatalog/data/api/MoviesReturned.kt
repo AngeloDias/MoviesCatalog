@@ -6,5 +6,5 @@ data class MoviesReturned (
     @SerializedName("total_pages")
     val countPages: Int,
     @SerializedName("results")
-    val movies: List<ApiMovie>
+    val movies: ArrayList<ApiMovie>
 )
