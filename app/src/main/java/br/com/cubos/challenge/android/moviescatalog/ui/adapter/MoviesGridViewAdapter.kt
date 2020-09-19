@@ -8,7 +8,9 @@ import android.widget.ImageView
 import android.widget.TextView
 import androidx.recyclerview.widget.RecyclerView
 import br.com.cubos.challenge.android.moviescatalog.R
+import br.com.cubos.challenge.android.moviescatalog.data.api.ApiRetrofitFactory
 import br.com.cubos.challenge.android.moviescatalog.data.domain.Movie
+import com.squareup.picasso.Picasso
 
 class MoviesGridViewAdapter(
     private val inflaterFromAppContext: LayoutInflater,
@@ -45,10 +47,10 @@ class MoviesGridViewAdapter(
 
         val item = getItem(p0)
 
-//        Picasso
-//            .get()
-//            .load("${ApiRetrofitFactory.MOVIE_API_BASE_URL}${item.posterPath}")
-//            .into(viewHolderItem.posterMovieImageView)
+        Picasso
+            .get()
+            .load("${ApiRetrofitFactory.IMAGE_POSTER_PATH_URL}w500/${item.posterPath}")
+            .into(viewHolderItem.posterMovieImageView)
 
 //        viewHolderItem.posterMovieImageView.setImageURI(item.posterPath)
         viewHolderItem.titleMoviesTextView.text = item.originalTitle

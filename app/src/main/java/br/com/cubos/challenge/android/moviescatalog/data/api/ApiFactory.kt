@@ -8,6 +8,7 @@ class ApiRetrofitFactory {
 
     companion object {
         const val MOVIE_API_BASE_URL = "https://api.themoviedb.org/3/"
+        const val IMAGE_POSTER_PATH_URL = "https://image.tmdb.org/t/p/"
         @Volatile
         private var INSTANCE: Retrofit? = null
 
