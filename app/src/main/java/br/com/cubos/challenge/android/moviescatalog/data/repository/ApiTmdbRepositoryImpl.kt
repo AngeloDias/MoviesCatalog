@@ -27,10 +27,12 @@ class ApiTmdbRepositoryImpl(private val listMapper: ListMapper<ApiMovie, Movie>)
         }
     }
 
-    private fun getRetrofitService(): TmdbApiService {
-        val retrofit = ApiRetrofitFactory.getInstance()
+    override fun getMoviesByTitle(title: String): Observable<List<Movie>> {
+        TODO("Not yet implemented")
+    }
 
-        return retrofit.create(TmdbApiService::class.java)
+    private fun getRetrofitService(): TmdbApiService {
+        return ApiRetrofitFactory.getInstance().create(TmdbApiService::class.java)
     }
 
 }

@@ -9,4 +9,6 @@ interface ApiTmdbRepository {
 
     fun getMoviesByGenres(genres: List<String>): Observable<List<Movie>>
 
+    fun getMoviesByTitle(title: String): Observable<List<Movie>>
+
 }

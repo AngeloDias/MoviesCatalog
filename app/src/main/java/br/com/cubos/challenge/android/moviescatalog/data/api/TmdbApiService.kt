@@ -17,4 +17,12 @@ interface TmdbApiService {
         @Query("with_genres")
         genresId: List<String>): Observable<MoviesReturned>
 
+    @GET("")
+    fun getMoviesByTitle(
+        @Query("api_key")
+        apiKey: String,
+
+        @Query("with_keywords")
+        title: String): Observable<MoviesReturned>
+
 }
