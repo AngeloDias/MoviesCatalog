@@ -14,7 +14,8 @@ import com.squareup.picasso.Picasso
 
 class MoviesGridViewAdapter(
     private val inflaterFromAppContext: LayoutInflater,
-    private var movies: ArrayList<Movie>): BaseAdapter() {
+    private var movies: ArrayList<Movie>,
+    private val listener: View.OnClickListener): BaseAdapter() {
 
     fun refreshData(movies: ArrayList<Movie>) {
         this.movies = movies
@@ -39,6 +40,9 @@ class MoviesGridViewAdapter(
 
         if(p1 == null) {
             view = inflaterFromAppContext.inflate(R.layout.grid_item_movie, null)
+
+            view.setOnClickListener(listener)
+
             viewHolderItem = MovieInGridViewHolderItem(view)
 
         } else {
@@ -52,7 +56,6 @@ class MoviesGridViewAdapter(
             .load("${ApiRetrofitFactory.IMAGE_POSTER_PATH_URL}w500/${item.posterPath}")
             .into(viewHolderItem.posterMovieImageView)
 
-//        viewHolderItem.posterMovieImageView.setImageURI(item.posterPath)
         viewHolderItem.titleMoviesTextView.text = item.originalTitle
 
         view!!.tag = viewHolderItem

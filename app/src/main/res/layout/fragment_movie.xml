@@ -9,6 +9,8 @@
         android:id="@+id/moviesGridView"
         android:layout_width="match_parent"
         android:layout_height="match_parent"
+        android:layout_margin="1dp"
+        android:padding="5dp"
         android:numColumns="2"
         android:columnWidth="@dimen/grid_col_width"
         android:stretchMode="columnWidth"

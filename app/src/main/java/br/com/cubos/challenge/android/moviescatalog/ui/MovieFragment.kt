@@ -26,7 +26,8 @@ class MovieFragment(private val movieGenre: MovieGenreTypes) : Fragment() {
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         val moviesGridView = view.findViewById<GridView>(R.id.moviesGridView)
         val inflater = LayoutInflater.from(view.context)
-        gridViewAdapter = MoviesGridViewAdapter(inflater, ArrayList())
+        val onClickListener = View.OnClickListener{}
+        gridViewAdapter = MoviesGridViewAdapter(inflater, ArrayList(), onClickListener)
 
         setupViewModel()
         setupObserver()

@@ -28,7 +28,11 @@ class ApiTmdbRepositoryImpl(private val listMapper: ListMapper<ApiMovie, Movie>)
     }
 
     override fun getMoviesByTitle(title: String): Observable<List<Movie>> {
-        TODO("Not yet implemented")
+        val apiMoviesByTitle = getRetrofitService().getMoviesByTitle("98fd2f0ffa80a2790cc4a4e5d611e1a3", title)
+
+        return apiMoviesByTitle.map {
+            listMapper.map(it.movies)
+        }
     }
 
     private fun getRetrofitService(): TmdbApiService {
