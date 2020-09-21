@@ -8,6 +8,10 @@ import android.view.Menu
 import android.widget.SearchView
 import android.widget.Toast
 import androidx.appcompat.app.AppCompatActivity
+import androidx.lifecycle.ViewModelProvider
+import br.com.cubos.challenge.android.moviescatalog.ui.MovieGenreTypes
+import br.com.cubos.challenge.android.moviescatalog.viewmodel.MoviesByTitleViewModel
+import br.com.cubos.challenge.android.moviescatalog.viewmodel.ViewModelFactory
 
 class MainActivity : AppCompatActivity() {
 
@@ -28,6 +32,12 @@ class MainActivity : AppCompatActivity() {
     private fun handleIntent(intent: Intent) {
         if (Intent.ACTION_SEARCH == intent.action) {
             intent.getStringExtra(SearchManager.QUERY)?.also { query ->
+                val moviesByTitleViewModel = ViewModelProvider(
+                    this,
+                    ViewModelFactory(MovieGenreTypes.DEFAULT, query)
+                ).get(MoviesByTitleViewModel::class.java)
+
+                moviesByTitleViewModel.moviesByTitleLiveData.observe(this, {})
 
                 Toast.makeText(applicationContext, "Pegou pesquisa", Toast.LENGTH_LONG).show()
             }

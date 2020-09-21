@@ -5,9 +5,14 @@ import androidx.fragment.app.Fragment
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
+import android.widget.ImageView
+import android.widget.TextView
 import br.com.cubos.challenge.android.moviescatalog.R
+import br.com.cubos.challenge.android.moviescatalog.data.api.ApiRetrofitFactory
+import br.com.cubos.challenge.android.moviescatalog.data.domain.Movie
+import com.squareup.picasso.Picasso
 
-class MovieDetailsFragment : Fragment() {
+class MovieDetailsFragment(private val movie: Movie) : Fragment() {
 
     override fun onCreateView(
         inflater: LayoutInflater, container: ViewGroup?,
@@ -17,7 +22,15 @@ class MovieDetailsFragment : Fragment() {
     }
 
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
-        super.onViewCreated(view, savedInstanceState)
+        val posterDetailImgView = view.findViewById<ImageView>(R.id.posterDetailMovieImageView)
+        val overviewDetailTextView = view.findViewById<TextView>(R.id.movieOverviewTextView)
+
+        Picasso
+            .get()
+            .load("${ApiRetrofitFactory.IMAGE_POSTER_PATH_URL}w500/${movie.posterPath}")
+            .into(posterDetailImgView)
+
+        overviewDetailTextView.text = movie.overview
     }
 
 }

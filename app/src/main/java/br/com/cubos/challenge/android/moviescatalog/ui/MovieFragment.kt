@@ -9,11 +9,11 @@ import androidx.fragment.app.Fragment
 import androidx.lifecycle.ViewModelProvider
 import br.com.cubos.challenge.android.moviescatalog.R
 import br.com.cubos.challenge.android.moviescatalog.ui.adapter.MoviesGridViewAdapter
-import br.com.cubos.challenge.android.moviescatalog.viewmodel.MoviesViewModel
+import br.com.cubos.challenge.android.moviescatalog.viewmodel.MoviesByGenreViewModel
 import br.com.cubos.challenge.android.moviescatalog.viewmodel.ViewModelFactory
 
 class MovieFragment(private val movieGenre: MovieGenreTypes) : Fragment() {
-    private lateinit var moviesViewModel: MoviesViewModel
+    private lateinit var moviesByGenreViewModel: MoviesByGenreViewModel
     private lateinit var gridViewAdapter: MoviesGridViewAdapter
 
     override fun onCreateView(
@@ -26,8 +26,7 @@ class MovieFragment(private val movieGenre: MovieGenreTypes) : Fragment() {
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         val moviesGridView = view.findViewById<GridView>(R.id.moviesGridView)
         val inflater = LayoutInflater.from(view.context)
-        val onClickListener = View.OnClickListener{}
-        gridViewAdapter = MoviesGridViewAdapter(inflater, ArrayList(), onClickListener)
+        gridViewAdapter = MoviesGridViewAdapter(inflater, ArrayList())
 
         setupViewModel()
         setupObserver()
@@ -36,14 +35,14 @@ class MovieFragment(private val movieGenre: MovieGenreTypes) : Fragment() {
     }
 
     private fun setupViewModel(){
-        moviesViewModel = ViewModelProvider(
+        moviesByGenreViewModel = ViewModelProvider(
             this,
-            ViewModelFactory(movieGenre)
-        ).get(MoviesViewModel::class.java)
+            ViewModelFactory(movieGenre, "")
+        ).get(MoviesByGenreViewModel::class.java)
     }
 
     private fun setupObserver(){
-        moviesViewModel.moviesByGenreLiveData.observe(this, {
+        moviesByGenreViewModel.moviesByGenreLiveData.observe(this, {
             gridViewAdapter.refreshData(it)
         })
     }

@@ -2,5 +2,6 @@
     <string name="app_name">MoviesCatalog</string>
     <string name="search_hint">Search for your movie</string>
     <string name="search_button_title">Search</string>
-    <string name="descrition_title_text">Description</string>
+    <string name="description_title_text">Description</string>
+    <string name="movies_text">Movies</string>
 </resources>

@@ -3,22 +3,25 @@
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
+    android:padding="5dp"
     tools:context="br.com.cubos.challenge.android.moviescatalog.ui.MovieDetailsFragment">
 
     <ImageView
         android:id="@+id/posterDetailMovieImageView"
         android:layout_width="match_parent"
-        android:layout_height="250dp"
+        android:layout_height="400dp"
         android:scaleType="fitXY" />
 
     <TextView
         android:id="@+id/descriptionTitleTextView"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:text="@string/descrition_title_text" />
+        android:textStyle="bold"
+        android:textSize="@dimen/descriptionTitleTextDimen"
+        android:text="@string/description_title_text" />
 
     <TextView
-        android:id="@+id/movieDescriptionTextView"
+        android:id="@+id/movieOverviewTextView"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content" />
 

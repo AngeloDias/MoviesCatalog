@@ -14,10 +14,3 @@ data class ApiMovie(
     @SerializedName("genre_ids")
     val genres: List<Int>
 )
-
-data class ApiGenre(
-    @SerializedName("id")
-    val id: Int,
-    @SerializedName("name")
-    val name: String
-)

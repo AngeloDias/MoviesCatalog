@@ -14,8 +14,7 @@ import com.squareup.picasso.Picasso
 
 class MoviesGridViewAdapter(
     private val inflaterFromAppContext: LayoutInflater,
-    private var movies: ArrayList<Movie>,
-    private val listener: View.OnClickListener): BaseAdapter() {
+    private var movies: ArrayList<Movie>): BaseAdapter() {
 
     fun refreshData(movies: ArrayList<Movie>) {
         this.movies = movies
@@ -40,9 +39,6 @@ class MoviesGridViewAdapter(
 
         if(p1 == null) {
             view = inflaterFromAppContext.inflate(R.layout.grid_item_movie, null)
-
-            view.setOnClickListener(listener)
-
             viewHolderItem = MovieInGridViewHolderItem(view)
 
         } else {
