@@ -1,5 +1,6 @@
 package br.com.cubos.challenge.android.moviescatalog.ui
 
+import android.annotation.SuppressLint
 import android.graphics.Color
 import android.os.Bundle
 import android.view.LayoutInflater
@@ -20,6 +21,7 @@ class MoviesCollectionFragment: Fragment() {
         return inflater.inflate(R.layout.fragment_movies_collection, container, false)
     }
 
+    @SuppressLint("ResourceType")
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         moviesFragmentCollectionAdapter = MoviesFragmentCollectionAdapter(this)
         viewPager = view.findViewById(R.id.pager)
@@ -27,8 +29,11 @@ class MoviesCollectionFragment: Fragment() {
 
         val tabLayout = view.findViewById(R.id.tab_layout) as TabLayout
 
-        tabLayout.setSelectedTabIndicatorColor(Color.parseColor("#ffffff00"))
-        tabLayout.setTabTextColors(Color.parseColor("#ffffffff"), Color.parseColor("#ffffffff"))
+        tabLayout.setSelectedTabIndicatorColor(Color.parseColor(resources.getString(R.color.yellow)))
+        tabLayout.setTabTextColors(
+            Color.parseColor(resources.getString(R.color.white)),
+            Color.parseColor(resources.getString(R.color.white))
+        )
 
         TabLayoutMediator(tabLayout, viewPager) { tab, position ->
             when(position) {

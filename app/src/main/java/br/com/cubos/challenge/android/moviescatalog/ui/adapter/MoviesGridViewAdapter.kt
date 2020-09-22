@@ -62,12 +62,6 @@ class MoviesGridViewAdapter(
 }
 
 class MovieInGridViewHolderItem(view: View): RecyclerView.ViewHolder(view) {
-    var posterMovieImageView: ImageView
-    var titleMoviesTextView: TextView
-
-    init {
-        posterMovieImageView = view.findViewById(R.id.moviePosterImageView)
-        titleMoviesTextView = view.findViewById(R.id.originalTitleTextView)
-    }
-
+    var posterMovieImageView: ImageView = view.findViewById(R.id.moviePosterImageView)
+    var titleMoviesTextView: TextView = view.findViewById(R.id.originalTitleTextView)
 }
