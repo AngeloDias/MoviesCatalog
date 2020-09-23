@@ -1,5 +1,6 @@
 package br.com.cubos.challenge.android.moviescatalog.data.api
 
+import br.com.cubos.challenge.android.moviescatalog.BuildConfig
 import okhttp3.OkHttpClient
 import retrofit2.Retrofit
 import retrofit2.adapter.rxjava2.RxJava2CallAdapterFactory
@@ -17,14 +18,13 @@ class ApiRetrofitService {
 
             synchronized(this) {
                 var instance = INSTANCE
-                val client = OkHttpClient.Builder().build()
 
                 if (instance == null) {
                     instance = Retrofit.Builder()
                         .baseUrl(MOVIE_API_BASE_URL)
                         .addConverterFactory(GsonConverterFactory.create())
                         .addCallAdapterFactory(RxJava2CallAdapterFactory.create())
-                        .client(client)
+                        .client(getOkHttpClientBuilder().build())
                         .build()
 
                     INSTANCE = instance
@@ -33,6 +33,22 @@ class ApiRetrofitService {
                 return instance!!
             }
 
+        }
+
+        private fun getOkHttpClientBuilder(): OkHttpClient.Builder {
+            val okHttpBuilder = OkHttpClient.Builder()
+
+            okHttpBuilder.addInterceptor {chain ->
+                val request = chain.request().newBuilder()
+                val originalHttpUrl = chain.request().url()
+                val url = originalHttpUrl.newBuilder().addQueryParameter("api_key", BuildConfig.TMDB_API_KEY).build()
+
+                request.url(url)
+
+                return@addInterceptor chain.proceed(request.build())
+            }
+
+            return okHttpBuilder
         }
     }
 
