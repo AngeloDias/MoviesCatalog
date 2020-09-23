@@ -1,7 +1,8 @@
 package br.com.cubos.challenge.android.moviescatalog.data.repository
 
+import br.com.cubos.challenge.android.moviescatalog.BuildConfig
 import br.com.cubos.challenge.android.moviescatalog.data.api.ApiMovie
-import br.com.cubos.challenge.android.moviescatalog.data.api.ApiRetrofitFactory
+import br.com.cubos.challenge.android.moviescatalog.data.api.ApiRetrofitService
 import br.com.cubos.challenge.android.moviescatalog.data.api.TmdbApiService
 import br.com.cubos.challenge.android.moviescatalog.data.domain.Movie
 import br.com.cubos.challenge.android.moviescatalog.data.mapper.ListMapper
@@ -20,7 +21,7 @@ class ApiTmdbRepositoryImpl(private val listMapper: ListMapper<ApiMovie, Movie>)
 
     override fun getMoviesByGenres(genres: List<String>): Observable<List<Movie>> {
         val apiMoviesByGenre = getRetrofitService()
-            .getMoviesByGenre("98fd2f0ffa80a2790cc4a4e5d611e1a3", genres)
+            .getMoviesByGenre(BuildConfig.TMDB_API_KEY, genres)
 
         return apiMoviesByGenre.map {
             listMapper.map(it.movies)
@@ -36,7 +37,7 @@ class ApiTmdbRepositoryImpl(private val listMapper: ListMapper<ApiMovie, Movie>)
     }
 
     private fun getRetrofitService(): TmdbApiService {
-        return ApiRetrofitFactory.getInstance().create(TmdbApiService::class.java)
+        return ApiRetrofitService.getInstance().create(TmdbApiService::class.java)
     }
 
 }

@@ -1,10 +1,11 @@
 package br.com.cubos.challenge.android.moviescatalog.data.api
 
+import okhttp3.OkHttpClient
 import retrofit2.Retrofit
 import retrofit2.adapter.rxjava2.RxJava2CallAdapterFactory
 import retrofit2.converter.gson.GsonConverterFactory
 
-class ApiRetrofitFactory {
+class ApiRetrofitService {
 
     companion object {
         const val MOVIE_API_BASE_URL = "https://api.themoviedb.org/3/"
@@ -16,12 +17,14 @@ class ApiRetrofitFactory {
 
             synchronized(this) {
                 var instance = INSTANCE
+                val client = OkHttpClient.Builder().build()
 
                 if (instance == null) {
                     instance = Retrofit.Builder()
                         .baseUrl(MOVIE_API_BASE_URL)
                         .addConverterFactory(GsonConverterFactory.create())
                         .addCallAdapterFactory(RxJava2CallAdapterFactory.create())
+                        .client(client)
                         .build()
 
                     INSTANCE = instance

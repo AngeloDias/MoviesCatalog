@@ -1,28 +1,44 @@
-<FrameLayout
+<androidx.constraintlayout.widget.ConstraintLayout
     xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
-    android:padding="5dp"
-    tools:context="br.com.cubos.challenge.android.moviescatalog.ui.MovieDetailsFragment">
+    android:padding="5dp">
 
     <ImageView
         android:id="@+id/posterDetailMovieImageView"
         android:layout_width="match_parent"
         android:layout_height="400dp"
-        android:scaleType="fitXY" />
+        android:layout_marginStart="5dp"
+        android:layout_marginTop="5dp"
+        android:layout_marginEnd="4dp"
+        android:scaleType="fitXY"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toTopOf="parent" />
 
     <TextView
         android:id="@+id/descriptionTitleTextView"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:textStyle="bold"
+        android:layout_marginStart="5dp"
+        android:layout_marginEnd="220dp"
+        android:text="@string/description_title_text"
         android:textSize="@dimen/descriptionTitleTextDimen"
-        android:text="@string/description_title_text" />
+        android:textStyle="bold"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toBottomOf="@+id/posterDetailMovieImageView" />
 
     <TextView
         android:id="@+id/movieOverviewTextView"
         android:layout_width="wrap_content"
-        android:layout_height="wrap_content" />
+        android:layout_height="wrap_content"
+        app:layout_constraintBottom_toBottomOf="parent"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toBottomOf="@+id/descriptionTitleTextView"
+        tools:text="Lorem ipsum" />
 
-</FrameLayout>
+</androidx.constraintlayout.widget.ConstraintLayout>

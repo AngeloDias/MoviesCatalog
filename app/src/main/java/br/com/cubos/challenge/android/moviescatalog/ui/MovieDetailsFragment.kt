@@ -8,7 +8,7 @@ import android.view.ViewGroup
 import android.widget.ImageView
 import android.widget.TextView
 import br.com.cubos.challenge.android.moviescatalog.R
-import br.com.cubos.challenge.android.moviescatalog.data.api.ApiRetrofitFactory
+import br.com.cubos.challenge.android.moviescatalog.data.api.ApiRetrofitService
 import br.com.cubos.challenge.android.moviescatalog.data.domain.Movie
 import com.squareup.picasso.Picasso
 
@@ -27,7 +27,7 @@ class MovieDetailsFragment(private val movie: Movie) : Fragment() {
 
         Picasso
             .get()
-            .load("${ApiRetrofitFactory.IMAGE_POSTER_PATH_URL}w500/${movie.posterPath}")
+            .load("${ApiRetrofitService.IMAGE_POSTER_PATH_URL}w500/${movie.posterPath}")
             .into(posterDetailImgView)
 
         overviewDetailTextView.text = movie.overview
