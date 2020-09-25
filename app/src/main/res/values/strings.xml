@@ -4,4 +4,5 @@
     <string name="search_button_title">Search</string>
     <string name="description_title_text">Description</string>
     <string name="movies_text">Movies</string>
+    <string name="grid_empty_text">The list of movies is empty!</string>
 </resources>

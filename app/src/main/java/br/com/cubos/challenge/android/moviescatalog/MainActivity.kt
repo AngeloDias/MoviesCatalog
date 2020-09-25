@@ -34,7 +34,7 @@ class MainActivity : AppCompatActivity() {
             intent.getStringExtra(SearchManager.QUERY)?.also { query ->
                 val moviesByTitleViewModel = ViewModelProvider(
                     this,
-                    ViewModelFactory(MovieGenreTypes.DEFAULT, query)
+                    ViewModelFactory(MovieGenreTypes.DEFAULT, query, applicationContext)
                 ).get(MoviesByTitleViewModel::class.java)
 
                 moviesByTitleViewModel.moviesByTitleLiveData.observe(this, {})

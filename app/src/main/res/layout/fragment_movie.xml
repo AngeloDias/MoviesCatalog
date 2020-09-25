@@ -18,4 +18,11 @@
         android:verticalSpacing="7dp"
         android:gravity="center"/>
 
+    <TextView
+        android:id="@+id/emptyGridTextView"
+        android:text="@string/grid_empty_text"
+        android:layout_gravity="center"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"/>
+
 </FrameLayout>

@@ -7,7 +7,7 @@ import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
 import android.widget.GridView
-import androidx.core.content.ContextCompat.getSystemService
+import android.widget.Toast
 import androidx.fragment.app.Fragment
 import androidx.lifecycle.ViewModelProvider
 import br.com.cubos.challenge.android.moviescatalog.R
@@ -17,7 +17,6 @@ import br.com.cubos.challenge.android.moviescatalog.viewmodel.ViewModelFactory
 import java.io.IOException
 import java.net.HttpURLConnection
 import java.net.URL
-
 
 class MovieFragment(private val movieGenre: MovieGenreTypes) : Fragment() {
     private lateinit var moviesByGenreViewModel: MoviesByGenreViewModel
@@ -35,18 +34,17 @@ class MovieFragment(private val movieGenre: MovieGenreTypes) : Fragment() {
         val inflater = LayoutInflater.from(view.context)
         gridViewAdapter = MoviesGridViewAdapter(inflater, ArrayList())
 
-        setupViewModel()
+        setupViewModel(view.context)
         setupObserver()
 
+        moviesGridView.emptyView = view.findViewById(R.id.emptyGridTextView)
         moviesGridView.adapter = gridViewAdapter
-
-        hasInternetAccess(view.context)
     }
 
-    private fun setupViewModel(){
+    private fun setupViewModel(viewContext: Context){
         moviesByGenreViewModel = ViewModelProvider(
             this,
-            ViewModelFactory(movieGenre, "")
+            ViewModelFactory(movieGenre, "", viewContext)
         ).get(MoviesByGenreViewModel::class.java)
     }
 
@@ -54,36 +52,6 @@ class MovieFragment(private val movieGenre: MovieGenreTypes) : Fragment() {
         moviesByGenreViewModel.moviesByGenreLiveData.observe(this, {
             gridViewAdapter.refreshData(it)
         })
-    }
-
-    private fun hasInternetAccess(context: Context): Boolean {
-        if (isNetworkAvailable(context)) {
-            try {
-                val urlc: HttpURLConnection = URL("http://clients3.google.com/generate_204")
-                    .openConnection() as HttpURLConnection
-                urlc.setRequestProperty("User-Agent", "Android")
-                urlc.setRequestProperty("Connection", "close")
-
-                urlc.connectTimeout = 1500
-
-                urlc.connect()
-
-                return urlc.responseCode == 204 && urlc.contentLength == 0
-            } catch (e: IOException) {
-                TODO()
-            }
-        } else {
-            TODO()
-        }
-
-        return false
-    }
-
-    private fun isNetworkAvailable(context: Context): Boolean {
-        val connectivityManager = context.getSystemService(Context.CONNECTIVITY_SERVICE) as ConnectivityManager?
-        val activeNetworkInfo = connectivityManager!!.activeNetworkInfo
-
-        return activeNetworkInfo != null
     }
 
 }
