@@ -1,4 +1,4 @@
-package br.com.cubos.challenge.android.moviescatalog.network
+package br.com.cubos.challenge.android.moviescatalog.utils
 
 import android.content.Context
 import android.net.ConnectivityManager
@@ -16,6 +16,7 @@ class CheckNetwork {
 
     companion object {
         var isNetworkConnected = false
+        const val ERROR_INTERNET_NOT_AVAILABLE = "Error: Internet connection not available"
     }
 
     fun checkIfDeviceIsReadyToConnectInternet(context: Context) {

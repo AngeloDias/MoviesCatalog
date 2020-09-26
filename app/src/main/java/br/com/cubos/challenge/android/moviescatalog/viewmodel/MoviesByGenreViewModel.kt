@@ -11,8 +11,9 @@ import br.com.cubos.challenge.android.moviescatalog.data.mapper.ApiMovieDataMapp
 import br.com.cubos.challenge.android.moviescatalog.data.mapper.ListMapper
 import br.com.cubos.challenge.android.moviescatalog.data.mapper.ListMapperImpl
 import br.com.cubos.challenge.android.moviescatalog.data.repository.ApiTmdbRepositoryImpl
-import br.com.cubos.challenge.android.moviescatalog.network.CheckNetwork
+import br.com.cubos.challenge.android.moviescatalog.utils.CheckNetwork
 import br.com.cubos.challenge.android.moviescatalog.ui.MovieGenreTypes
+import br.com.cubos.challenge.android.moviescatalog.utils.Resource
 import io.reactivex.android.schedulers.AndroidSchedulers
 import io.reactivex.disposables.CompositeDisposable
 import io.reactivex.schedulers.Schedulers
@@ -24,8 +25,8 @@ class MoviesByGenreViewModel(private val enumGenre: MovieGenreTypes,
     private val listMapperImpl: ListMapper<ApiMovie, Movie>
     private val repositoryImpl: ApiTmdbRepositoryImpl
 
-    private val _moviesByGenreMutableLiveData = MutableLiveData<ArrayList<Movie>>()
-    val moviesByGenreLiveData: LiveData<ArrayList<Movie>> = _moviesByGenreMutableLiveData
+    private val _moviesByGenreMutableLiveData = MutableLiveData<Resource<ArrayList<Movie>>>()
+    val moviesByGenreLiveData: LiveData<Resource<ArrayList<Movie>>> = _moviesByGenreMutableLiveData
 
     private val compositeDisposable = CompositeDisposable()
 
@@ -44,6 +45,7 @@ class MoviesByGenreViewModel(private val enumGenre: MovieGenreTypes,
         val genre = ArrayList<String>()
 
         genre.add(enumGenre.genreId)
+        _moviesByGenreMutableLiveData.postValue(Resource.loading(ArrayList()))
 
         val disposableMovies = repositoryImpl
             .getMoviesByGenres(genre)
@@ -51,11 +53,21 @@ class MoviesByGenreViewModel(private val enumGenre: MovieGenreTypes,
             .observeOn(AndroidSchedulers.mainThread())
             .subscribe(
                 {
-                    _moviesByGenreMutableLiveData.postValue(it as ArrayList<Movie>?)
+                    _moviesByGenreMutableLiveData.postValue(Resource.success(it as ArrayList<Movie>))
                 },
                 {
-                    Log.e("ApiError", it.message!!)
                     CheckNetwork().checkIfDeviceIsReadyToConnectInternet(viewContext)
+                    if (CheckNetwork.isNetworkConnected) {
+                        _moviesByGenreMutableLiveData.postValue(Resource.error(it.message?: "", null))
+                    } else {
+                        _moviesByGenreMutableLiveData.postValue(
+                            Resource.error(
+                                CheckNetwork.ERROR_INTERNET_NOT_AVAILABLE,
+                                null))
+                    }
+
+                    Log.e("ApiError", it.message!!)
+                    it.printStackTrace()
                 }
             )
 

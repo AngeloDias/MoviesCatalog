@@ -11,7 +11,7 @@ import br.com.cubos.challenge.android.moviescatalog.data.mapper.ApiMovieDataMapp
 import br.com.cubos.challenge.android.moviescatalog.data.mapper.ListMapper
 import br.com.cubos.challenge.android.moviescatalog.data.mapper.ListMapperImpl
 import br.com.cubos.challenge.android.moviescatalog.data.repository.ApiTmdbRepositoryImpl
-import br.com.cubos.challenge.android.moviescatalog.network.CheckNetwork
+import br.com.cubos.challenge.android.moviescatalog.utils.CheckNetwork
 import io.reactivex.android.schedulers.AndroidSchedulers
 import io.reactivex.disposables.CompositeDisposable
 import io.reactivex.schedulers.Schedulers

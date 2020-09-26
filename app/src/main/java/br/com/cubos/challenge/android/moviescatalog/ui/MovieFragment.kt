@@ -1,22 +1,19 @@
 package br.com.cubos.challenge.android.moviescatalog.ui
 
 import android.content.Context
-import android.net.ConnectivityManager
 import android.os.Bundle
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
 import android.widget.GridView
-import android.widget.Toast
 import androidx.fragment.app.Fragment
 import androidx.lifecycle.ViewModelProvider
 import br.com.cubos.challenge.android.moviescatalog.R
+import br.com.cubos.challenge.android.moviescatalog.utils.CheckNetwork
 import br.com.cubos.challenge.android.moviescatalog.ui.adapter.MoviesGridViewAdapter
+import br.com.cubos.challenge.android.moviescatalog.utils.Status
 import br.com.cubos.challenge.android.moviescatalog.viewmodel.MoviesByGenreViewModel
 import br.com.cubos.challenge.android.moviescatalog.viewmodel.ViewModelFactory
-import java.io.IOException
-import java.net.HttpURLConnection
-import java.net.URL
 
 class MovieFragment(private val movieGenre: MovieGenreTypes) : Fragment() {
     private lateinit var moviesByGenreViewModel: MoviesByGenreViewModel
@@ -50,7 +47,17 @@ class MovieFragment(private val movieGenre: MovieGenreTypes) : Fragment() {
 
     private fun setupObserver(){
         moviesByGenreViewModel.moviesByGenreLiveData.observe(this, {
-            gridViewAdapter.refreshData(it)
+            when(it.status) {
+                Status.LOADING -> {}
+                Status.SUCCESS -> {
+                    gridViewAdapter.refreshData(it.data!!)
+                }
+                Status.ERROR -> {
+                    if(it.message.equals(CheckNetwork.ERROR_INTERNET_NOT_AVAILABLE)) {
+                        // TODO() start listening a callback to network connection or using another approach, acquire
+                    }
+                }
+            }
         })
     }
 
