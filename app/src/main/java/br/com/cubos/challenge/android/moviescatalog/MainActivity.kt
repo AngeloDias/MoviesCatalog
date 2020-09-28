@@ -5,11 +5,13 @@ import android.content.Context
 import android.content.Intent
 import android.os.Bundle
 import android.view.Menu
+import android.widget.FrameLayout
 import android.widget.SearchView
 import android.widget.Toast
 import androidx.appcompat.app.AppCompatActivity
 import androidx.lifecycle.ViewModelProvider
 import br.com.cubos.challenge.android.moviescatalog.ui.MovieGenreTypes
+import br.com.cubos.challenge.android.moviescatalog.ui.MoviesCollectionFragment
 import br.com.cubos.challenge.android.moviescatalog.viewmodel.MoviesByTitleViewModel
 import br.com.cubos.challenge.android.moviescatalog.viewmodel.ViewModelFactory
 
@@ -18,6 +20,16 @@ class MainActivity : AppCompatActivity() {
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
         setContentView(R.layout.activity_main)
+
+        if(findViewById<FrameLayout>(R.id.fragments_placeholder) != null) {
+            if (savedInstanceState != null) {
+                return
+            }
+
+            supportFragmentManager.beginTransaction()
+                .add(R.id.fragments_placeholder, MoviesCollectionFragment())
+                .commit()
+        }
 
         handleIntent(intent)
     }

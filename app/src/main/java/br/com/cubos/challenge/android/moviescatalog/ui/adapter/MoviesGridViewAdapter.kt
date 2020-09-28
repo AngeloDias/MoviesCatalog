@@ -54,7 +54,8 @@ class MoviesGridViewAdapter(
 
         viewHolderItem.titleMoviesTextView.text = item.originalTitle
 
-        view!!.tag = viewHolderItem
+        view!!.setOnClickListener {}
+        view.tag = viewHolderItem
 
         return view
     }

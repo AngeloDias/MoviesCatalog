@@ -57,6 +57,7 @@ class MoviesByGenreViewModel(private val enumGenre: MovieGenreTypes,
                 },
                 {
                     CheckNetwork().checkIfDeviceIsReadyToConnectInternet(viewContext)
+
                     if (CheckNetwork.isNetworkConnected) {
                         _moviesByGenreMutableLiveData.postValue(Resource.error(it.message?: "", null))
                     } else {
