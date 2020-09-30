@@ -10,12 +10,15 @@ import android.widget.SearchView
 import android.widget.Toast
 import androidx.appcompat.app.AppCompatActivity
 import androidx.lifecycle.ViewModelProvider
+import br.com.cubos.challenge.android.moviescatalog.data.domain.Movie
+import br.com.cubos.challenge.android.moviescatalog.ui.MovieDetailsFragment
 import br.com.cubos.challenge.android.moviescatalog.ui.MovieGenreTypes
 import br.com.cubos.challenge.android.moviescatalog.ui.MoviesCollectionFragment
+import br.com.cubos.challenge.android.moviescatalog.ui.adapter.MovieItemClickListener
 import br.com.cubos.challenge.android.moviescatalog.viewmodel.MoviesByTitleViewModel
 import br.com.cubos.challenge.android.moviescatalog.viewmodel.ViewModelFactory
 
-class MainActivity : AppCompatActivity() {
+class MainActivity : AppCompatActivity(), MovieItemClickListener {
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
@@ -27,7 +30,7 @@ class MainActivity : AppCompatActivity() {
             }
 
             supportFragmentManager.beginTransaction()
-                .add(R.id.fragments_placeholder, MoviesCollectionFragment())
+                .add(R.id.fragments_placeholder, MoviesCollectionFragment(this))
                 .commit()
         }
 
@@ -69,6 +72,16 @@ class MainActivity : AppCompatActivity() {
         }
 
         return true
+    }
+
+    override fun onClick(movie: Movie) {
+        if(findViewById<FrameLayout>(R.id.fragments_placeholder) != null) {
+
+            // TODO still needing to put the back arrow on the bar
+            supportFragmentManager.beginTransaction().replace(R.id.fragments_placeholder, MovieDetailsFragment(movie))
+                .addToBackStack("Details")
+                .commit()
+        }
     }
 
 }

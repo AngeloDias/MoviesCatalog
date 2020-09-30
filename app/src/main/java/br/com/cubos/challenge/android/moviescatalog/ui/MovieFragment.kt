@@ -9,13 +9,17 @@ import android.widget.GridView
 import androidx.fragment.app.Fragment
 import androidx.lifecycle.ViewModelProvider
 import br.com.cubos.challenge.android.moviescatalog.R
+import br.com.cubos.challenge.android.moviescatalog.ui.adapter.MovieItemClickListener
 import br.com.cubos.challenge.android.moviescatalog.utils.CheckNetwork
 import br.com.cubos.challenge.android.moviescatalog.ui.adapter.MoviesGridViewAdapter
 import br.com.cubos.challenge.android.moviescatalog.utils.Status
 import br.com.cubos.challenge.android.moviescatalog.viewmodel.MoviesByGenreViewModel
 import br.com.cubos.challenge.android.moviescatalog.viewmodel.ViewModelFactory
 
-class MovieFragment(private val movieGenre: MovieGenreTypes) : Fragment() {
+class MovieFragment(
+    private val movieGenre: MovieGenreTypes,
+    private val callback: MovieItemClickListener) : Fragment() {
+
     private lateinit var moviesByGenreViewModel: MoviesByGenreViewModel
     private lateinit var gridViewAdapter: MoviesGridViewAdapter
 
@@ -29,7 +33,7 @@ class MovieFragment(private val movieGenre: MovieGenreTypes) : Fragment() {
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         val moviesGridView = view.findViewById<GridView>(R.id.moviesGridView)
         val inflater = LayoutInflater.from(view.context)
-        gridViewAdapter = MoviesGridViewAdapter(inflater, ArrayList())
+        gridViewAdapter = MoviesGridViewAdapter(inflater, ArrayList(), callback)
 
         setupViewModel(view.context)
         setupObserver()

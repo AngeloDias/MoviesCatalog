@@ -14,7 +14,8 @@ import com.squareup.picasso.Picasso
 
 class MoviesGridViewAdapter(
     private val inflaterFromAppContext: LayoutInflater,
-    private var movies: ArrayList<Movie>): BaseAdapter() {
+    private var movies: ArrayList<Movie>,
+    private val callback: MovieItemClickListener): BaseAdapter() {
 
     fun refreshData(movies: ArrayList<Movie>) {
         this.movies = movies
@@ -54,12 +55,18 @@ class MoviesGridViewAdapter(
 
         viewHolderItem.titleMoviesTextView.text = item.originalTitle
 
-        view!!.setOnClickListener {}
+        view!!.setOnClickListener{
+            callback.onClick(item)
+        }
         view.tag = viewHolderItem
 
         return view
     }
 
+}
+
+interface MovieItemClickListener {
+    fun onClick(movie: Movie)
 }
 
 class MovieInGridViewHolderItem(view: View): RecyclerView.ViewHolder(view) {

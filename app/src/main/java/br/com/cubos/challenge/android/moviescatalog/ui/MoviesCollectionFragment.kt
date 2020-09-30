@@ -10,10 +10,11 @@ import androidx.fragment.app.Fragment
 import androidx.viewpager2.adapter.FragmentStateAdapter
 import androidx.viewpager2.widget.ViewPager2
 import br.com.cubos.challenge.android.moviescatalog.R
+import br.com.cubos.challenge.android.moviescatalog.ui.adapter.MovieItemClickListener
 import com.google.android.material.tabs.TabLayout
 import com.google.android.material.tabs.TabLayoutMediator
 
-class MoviesCollectionFragment: Fragment() {
+class MoviesCollectionFragment(private val callback: MovieItemClickListener): Fragment() {
     private lateinit var moviesFragmentCollectionAdapter: MoviesFragmentCollectionAdapter
     private lateinit var viewPager: ViewPager2
 
@@ -23,7 +24,7 @@ class MoviesCollectionFragment: Fragment() {
 
     @SuppressLint("ResourceType")
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
-        moviesFragmentCollectionAdapter = MoviesFragmentCollectionAdapter(this)
+        moviesFragmentCollectionAdapter = MoviesFragmentCollectionAdapter(this, callback)
         viewPager = view.findViewById(R.id.pager)
         viewPager.adapter = moviesFragmentCollectionAdapter
 
@@ -58,7 +59,8 @@ class MoviesCollectionFragment: Fragment() {
 }
 
 class MoviesFragmentCollectionAdapter(
-    fragmentRelatedToAdapter: Fragment): FragmentStateAdapter(fragmentRelatedToAdapter) {
+    fragmentRelatedToAdapter: Fragment,
+    private val callback: MovieItemClickListener): FragmentStateAdapter(fragmentRelatedToAdapter) {
 
     override fun getItemCount(): Int {
         return 4
@@ -67,16 +69,16 @@ class MoviesFragmentCollectionAdapter(
     override fun createFragment(position: Int): Fragment {
         return when(position) {
             0 -> {
-                MovieFragment(MovieGenreTypes.ACTION)
+                MovieFragment(MovieGenreTypes.ACTION, callback)
             }
             1 -> {
-                MovieFragment(MovieGenreTypes.DRAMA)
+                MovieFragment(MovieGenreTypes.DRAMA, callback)
             }
             2 -> {
-                MovieFragment(MovieGenreTypes.FANTASY)
+                MovieFragment(MovieGenreTypes.FANTASY, callback)
             }
             else -> {
-                MovieFragment(MovieGenreTypes.FICTION)
+                MovieFragment(MovieGenreTypes.FICTION, callback)
             }
         }
     }
